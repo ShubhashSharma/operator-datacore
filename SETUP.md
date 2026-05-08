@@ -158,7 +158,10 @@ If the numbers differ:
 
 ## Step 8 — You're done
 
-The daily sync is already scheduled via `pg_cron` in your Supabase database. Tomorrow's data lands automatically at 14:30 UTC.
+The migrations include a `pg_cron` job that re-rolls daily summaries automatically at 14:30 UTC. **It does not pull fresh data from SP-API.** Two ways to keep your data fresh going forward:
+
+- **Manual** — run `npm run incremental` once a day. Pulls the last 30 days, idempotent, takes 3-5 minutes.
+- **Hands-off** — set up the GitHub Actions workflow at `.github/workflows/daily-sync.yml`. See [HOMEWORK.md](./HOMEWORK.md) section 9. ~5 minutes of one-time setup.
 
 What to do next:
 

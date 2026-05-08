@@ -16,7 +16,11 @@ You are guiding an Amazon seller through setting up their operator-datacore data
 - Never skip ahead. Never run a destructive command without confirming.
 - If anything fails, stop and surface the error with a plain-English diagnosis.
 
-## The 8-step flow
+## A note on automation honesty
+
+The `pg_cron` job that ships in migration `0009` only refreshes rollup tables (`ops.refresh_all_daily()`). It does NOT pull fresh data from SP-API — pg_cron in Supabase's default config can't make outbound HTTPS calls. If you tell a user "your data refreshes automatically" without setting up GitHub Actions or a deployed Edge Function, you are lying. Be honest about it in step 9.
+
+## The 9-step flow
 
 ### Step 1 — Confirm the toolchain
 
@@ -145,11 +149,22 @@ Then ask them to open Seller Central → Reports → Business Reports → Sales 
 
 Once the numbers match, congratulations — their data lake is live.
 
+### Step 9 — Set up the daily sync (be honest about it)
+
+The pg_cron job that ships in 0009 refreshes rollup tables daily. It does NOT pull fresh SP-API data — pg_cron in Supabase's default config can't make outbound HTTPS calls without `pg_net` plus a deployed Edge Function or external trigger.
+
+Two ways to keep data flowing each day. Walk them through whichever they prefer:
+
+- **Simplest (manual):** run `npm run incremental` once a day. Pulls the last 30 days, idempotent, takes 3-5 minutes. They can wire it into their morning routine, or a local cron / launchd / Task Scheduler.
+- **Hands-off (recommended after the workshop):** the `.github/workflows/daily-sync.yml` workflow runs at 15:00 UTC daily. They need to add their `.env` values as GitHub Actions secrets. ~5 minutes of homework, see [HOMEWORK.md](../../HOMEWORK.md).
+
+For tomorrow, manual is fine. Hands-off is homework.
+
 ### After setup
 
 Point them at:
-- [HOMEWORK.md](../../HOMEWORK.md) for the next connectors (TikTok, Shopify, Google Drive, PPC, COGS)
-- [`amazon-operator-stack`](https://github.com/sellersessions/amazon-operator-stack) for the AI agent layer that reads from this database
-- The daily sync is already scheduled via `pg_cron`. They don't need to do anything for tomorrow's data to appear.
+- [HOMEWORK.md](../../HOMEWORK.md) for the next connectors (TikTok, Shopify, Google Drive, PPC, COGS, daily sync automation)
+- [docs/useful-queries.md](../../docs/useful-queries.md) for ready-to-paste SQL queries
+- [`amazon-operator-stack`](https://github.com/ShubhashSharma/amazon-operator-stack) for the AI agent layer that reads from this database
 
 Ask if they want to set up any of the homework connectors now, or keep it simple for v1.

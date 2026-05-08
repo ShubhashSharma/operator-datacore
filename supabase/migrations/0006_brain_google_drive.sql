@@ -11,6 +11,9 @@
 
 BEGIN;
 
+-- pg_trgm for fuzzy path search on gdrive_files.full_path
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
 -- ----------------------------------------------------------------------------
 -- brain.gdrive_files   — scaffolded
 -- ----------------------------------------------------------------------------
@@ -54,9 +57,6 @@ CREATE INDEX IF NOT EXISTS idx_gdrive_files_mime
     ON brain.gdrive_files (mime_type);
 CREATE INDEX IF NOT EXISTS idx_gdrive_files_path_trgm
     ON brain.gdrive_files USING gin (full_path gin_trgm_ops);
-
--- pg_trgm for fuzzy path search
-CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 COMMENT ON TABLE brain.gdrive_files IS
 'Google Drive file metadata + lazily-extracted text. Synced via changes.list watch loop. Bytes never stored.';

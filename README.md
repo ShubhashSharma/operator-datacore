@@ -124,14 +124,30 @@ Why five? Because mixing raw imports with clean numbers with rollups in one sche
 
 ---
 
+## Pair with the agent layer
+
+operator-datacore is the **data layer**. Pair it with [`amazon-operator-stack`](https://github.com/ShubhashSharma/amazon-operator-stack) (the **agent layer**) and Claude Code can:
+
+- Query your historical data instantly (from this lake)
+- Call SP-API live for current state (via amazon-operator-stack)
+- Cross-reference both in a single answer
+
+Setup: 5 minutes. See [docs/pair-with-amazon-operator-stack.md](./docs/pair-with-amazon-operator-stack.md).
+
+---
+
 ## Help
 
 - `/operator-setup` in Claude Code — the friendliest path
 - [SETUP.md](./SETUP.md) — written step-by-step
 - [GLOSSARY.md](./GLOSSARY.md) — every technical term explained in one line
-- [HOMEWORK.md](./HOMEWORK.md) — TikTok, Shopify, Google Drive, PPC, COGS
+- [HOMEWORK.md](./HOMEWORK.md) — TikTok, Shopify, Google Drive, PPC, COGS, automation
 - [docs/canonical-reports.md](./docs/canonical-reports.md) — which SP-API report owns which metric
+- [docs/architecture.md](./docs/architecture.md) — why 5 schemas
+- [docs/useful-queries.md](./docs/useful-queries.md) — SQL cookbook (paste-and-run)
+- [docs/pair-with-amazon-operator-stack.md](./docs/pair-with-amazon-operator-stack.md) — pairing with the agent layer
 - [docs/runbooks/](./docs/runbooks/) — one runbook per integration
+- [CHANGELOG.md](./CHANGELOG.md) — release history
 
 ---
 

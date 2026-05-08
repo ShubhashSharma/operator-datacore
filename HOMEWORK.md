@@ -110,6 +110,26 @@ When the two are paired, you have a complete operator stack: data layer + agent 
 
 ---
 
+## 9. Automate the daily sync
+
+`pg_cron` (which ships in migration 0009) only refreshes rollups — it does not pull fresh data from SP-API. Two ways to keep daily data flowing:
+
+| Path | Effort | Effort to maintain |
+|---|---|---|
+| **Manual** — run `npm run incremental` once a day | 0 min setup, 30 sec daily | Human-in-the-loop |
+| **GitHub Actions** — `.github/workflows/daily-sync.yml` runs daily at 15:00 UTC | 5 min setup (add 8 secrets) | Zero-touch |
+| **Supabase Edge Function** (advanced) — deploy a function, schedule it via pg_cron + pg_net | 30 min setup | Zero-touch, all in your Supabase project |
+
+For the GitHub Actions path, fork the repo to your account, then in your repo's **Settings → Secrets and variables → Actions** add:
+
+- `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_DB_URL`
+- `SP_API_LWA_CLIENT_ID`, `SP_API_LWA_CLIENT_SECRET`, `SP_API_REFRESH_TOKEN`
+- `SP_API_REGION`, `SP_API_MARKETPLACE_IDS`
+
+The workflow is already in `.github/workflows/daily-sync.yml`. It fires automatically once secrets are configured.
+
+---
+
 ## A note on order
 
 There's no "correct" order. Pick whichever solves the loudest pain in your business this week:

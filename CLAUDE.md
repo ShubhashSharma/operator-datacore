@@ -86,8 +86,8 @@ When the user runs `/operator-setup`, walk them through these steps in order. Do
 6. **Smoke test SP-API** — `npm run smoke`. This calls the SP-API health-check, doesn't pull any data, just confirms credentials work.
 7. **First backfill** — propose 6 months as a smoke test, then 24 months as the full run. `npm run backfill:amazon:sales-traffic`.
 8. **Verification** — `npm run verify`. This prints a side-by-side of your `brain.sales_traffic_daily` totals and asks the user to compare against Seller Central → Reports → Business Reports → Sales and Traffic. Aim for £0.00 / $0.00 gap.
-9. **Schedule the daily sync** — `npm run schedule`. Sets up the `pg_cron` job for daily 14:00 UTC pulls.
-10. **Hand off** — point them at the homework file and ask which connector they want next: TikTok, Shopify, Google Drive, PPC, COGS.
+9. **Set up the daily sync (honestly)** — the migrations include a `pg_cron` job that refreshes rollups (`ops.refresh_all_daily()`), NOT a job that pulls fresh data from SP-API. Two options for daily data: (a) run `npm run incremental` manually, or (b) wire up the `.github/workflows/daily-sync.yml` GitHub Actions workflow. Walk them through whichever they prefer. Don't claim auto-sync exists when it doesn't.
+10. **Hand off** — point them at [HOMEWORK.md](./HOMEWORK.md), [docs/useful-queries.md](./docs/useful-queries.md), and [`amazon-operator-stack`](https://github.com/ShubhashSharma/amazon-operator-stack). Ask which connector they want next: TikTok, Shopify, Google Drive, PPC, COGS.
 
 ---
 
