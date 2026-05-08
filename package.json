@@ -1,0 +1,41 @@
+{
+  "name": "operator-datacore",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Your Amazon (and TikTok, and Shopify, and Google Drive) data, all in one Supabase database. Built for Seller Sessions Live 2026.",
+  "homepage": "https://github.com/sellersessions/operator-datacore",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "setup": "tsx src/cli/setup.ts",
+    "migrate": "tsx src/cli/migrate.ts",
+    "backfill": "tsx src/cli/backfill.ts",
+    "backfill:amazon": "tsx src/cli/backfill.ts --source amazon",
+    "backfill:amazon:sales-traffic": "tsx src/cli/backfill.ts --source amazon --report sales-traffic",
+    "verify": "tsx src/cli/verify.ts",
+    "smoke": "tsx src/cli/smoke.ts",
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint src/ --ext .ts",
+    "test:sql": "tsx src/cli/test-sql.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.5",
+    "p-limit": "^5.0.0",
+    "p-retry": "^6.2.0",
+    "pg": "^8.12.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/pg": "^8.11.6",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "eslint": "^8.57.0",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.0"
+  }
+}
